@@ -5,7 +5,7 @@ apply plugin: 'idea'
 
 defaultTasks 'clean', 'build'
 
-version = '0.3.13-SNAPSHOT'
+version = '0.3.19-SNAPSHOT'
 group = 'com.eriwen'
 archivesBaseName = 'gradle-js-plugin'
 isSnapshot = version.endsWith("-SNAPSHOT")
@@ -25,7 +25,6 @@ dependencies {
         exclude module: "junit-dep"
         exclude module: "groovy-all"
     }
-
 }
 
 idea.module {

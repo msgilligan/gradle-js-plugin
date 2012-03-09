@@ -1,10 +1,14 @@
+import com.eriwen.gradle.js.tasks.MinifyJsTask
+import com.eriwen.gradle.js.tasks.GzipJsTask
+import com.eriwen.gradle.js.tasks.CombineJsTask
+
 buildscript {
     repositories {
         mavenLocal()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.eriwen:gradle-js-plugin:0.3.13-SNAPSHOT'
+        classpath 'com.eriwen:gradle-js-plugin:0.3.19-SNAPSHOT'
     }
 }
 
@@ -24,11 +28,16 @@ dependencies {
 apply plugin: 'js'
 
 // Combine JS files
-combineJs {
+task combineJsDeprecated(type: CombineJsTask) {
     file2 = fileTree(dir: "${projectDir}/src/test/resources", includes: ['file2.js'])
     file1 = fileTree(dir: "${projectDir}/src/test/resources", includes: ['file1.js'])
     inputs.files file2 + file1
     outputs.file file("${buildDir}/all.js")
+}
+
+combineJs {
+    source = ["${projectDir}/src/test/resources/file2.js", "${projectDir}/src/test/resources/file1.js"]
+    dest = file("${buildDir}/all.js")
 }
 
 // Minify with Google Closure Compiler
@@ -38,10 +47,21 @@ minifyJs {
     warningLevel = 'QUIET'
 }
 
+task minify(type: MinifyJsTask) {
+    source = "${buildDir}/all.js"
+    dest = "${buildDir}/all-min.js"
+    warningLevel = 'QUIET'
+}
+
 // GZip it!
 gzipJs {
     inputs.file file("${buildDir}/all-min.js")
     outputs.file file("${buildDir}/all-min.js")
+}
+
+task gzip(type: GzipJsTask) {
+    source = file("${buildDir}/all-min.js")
+    dest = file("${buildDir}/all-min.js")
 }
 
 jshint {

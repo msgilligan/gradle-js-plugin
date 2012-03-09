@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Eric Wendelin
+ * Copyright 2012 Eric Wendelin
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,23 +15,21 @@
  */
 package com.eriwen.gradle.js.tasks
 
-import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
-import org.gradle.api.logging.Logger
+import org.gradle.api.tasks.SourceTask
+import org.gradle.api.tasks.OutputFile
 
-class CombineJsTask extends DefaultTask {
+class CombineJsTask extends SourceTask {
+    @OutputFile
+    File dest
+
     @TaskAction
     def run() {
-        def outputFiles = getOutputs().files
-        if (outputFiles.files.size() == 1) {
-            ant.concat(destfile: outputFiles.asPath, fixlastline: 'yes') {
-                getInputs().files.each {
-                    logger.info("Adding to fileset: ${it.canonicalPath}")
-                    fileset(file: it.canonicalPath)
-                }
+        ant.concat(destfile: dest.canonicalPath, fixlastline: 'yes') {
+            source.files.each {
+                logger.info("Adding to fileset: ${it}")
+                fileset(file: it)
             }
-        } else {
-            throw new IllegalArgumentException('Output must be exactly 1 File object. Example: outputs.file = file("myFile")')
         }
     }
 }
