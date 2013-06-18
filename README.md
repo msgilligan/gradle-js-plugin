@@ -123,7 +123,7 @@ requireJs {
 - dest = File for minified output
 - *(Optional)* closure.compilationLevel = 'WHITESPACE_ONLY', 'SIMPLE_OPTIMIZATIONS' (default), or 'ADVANCED_OPTIMIZATIONS' (are you *hardcore*?)
 - *(Optional)* closure.warningLevel = 'QUIET', 'DEFAULT' (default), or 'VERBOSE'
-- *(Optional)* closure.compilerOptions = [CompilerOptions](http://code.google.com/p/closure-compiler/source/browse/trunk/src/com/google/javascript/jscomp/CompilerOptions.java?r=1918) object
+- *(Optional)* closure.compilerOptions = [CompilerOptions](http://closure-compiler.googlecode.com/svn/trunk/javadoc/com/google/javascript/jscomp/CompilerOptions.html) object
 - *(Optional)* closure.externs = [FileCollection](http://gradle.org/docs/current/javadoc/org/gradle/api/file/FileCollection.html) object
 
 ### gzipJs
